@@ -1,60 +1,27 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:homepage/models/category_model.dart';
+import 'package:homepage/widgets/hero_carousel_card.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final List<String> imgList = [
-      'images/graphics design.png',
-      'images/logo-social.png',
-      'images/poster.png',
-      'images/ui_ux.jpg'
-    ];
+    // final List<String> imgList = [
+    //   'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQ_6t1p6jg9_zGhdWMw6bmad-3UW3m3ums4w&usqp=CAU',
+    //   'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT2I75rxUUGe78wcrBLRtUg5NAoqSCJf88-Tg&usqp=CAU',
+    //   'https://i.pinimg.com/originals/63/e5/3a/63e53a677ea6ff964722d9bc76bc1c7e.jpg',
+    //   'https://www.acquisition-international.com/wp-content/uploads/2021/09/UI-UX-Design.jpg'
+    // ];
 
-    final List<Widget> imageSliders = imgList
-        .map((item) => Container(
-              child: Container(
-                margin: EdgeInsets.all(5.0),
-                child: ClipRRect(
-                    borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                    child: Stack(
-                      children: <Widget>[
-                        Image.network(item, fit: BoxFit.cover, width: 1000.0),
-                        Positioned(
-                          bottom: 0.0,
-                          left: 0.0,
-                          right: 0.0,
-                          child: Container(
-                            decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                colors: [
-                                  Color.fromARGB(200, 0, 0, 0),
-                                  Color.fromARGB(0, 0, 0, 0)
-                                ],
-                                begin: Alignment.bottomCenter,
-                                end: Alignment.topCenter,
-                              ),
-                            ),
-                            padding: EdgeInsets.symmetric(
-                                vertical: 10.0, horizontal: 20.0),
-                            child: Text(
-                              'No. ${imgList.indexOf(item)} image',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 20.0,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    )),
-              ),
-            ))
-        .toList();
+    // final List<String> imgList = [
+    //   'images/graphics_design.png',
+    //   'images/logo.png',
+    //   'images/poster.png',
+    //   'images/ui_ux.jpg'
+    // ];
 
     return Scaffold(
       body: Column(
@@ -114,13 +81,15 @@ class HomePage extends StatelessWidget {
           Container(
               child: CarouselSlider(
             options: CarouselOptions(
-              aspectRatio: 2.0,
+              aspectRatio: 1.8,
+              viewportFraction: 0.9,
               enlargeCenterPage: true,
-              enableInfiniteScroll: false,
-              initialPage: 2,
-              autoPlay: true,
+              enlargeStrategy: CenterPageEnlargeStrategy.height,
+              // autoPlay: true,
             ),
-            items: imageSliders,
+            items: Category.categories
+                .map((Category) => HeroCarouselCard(category: Category))
+                .toList(),
           )),
         ],
       ),
